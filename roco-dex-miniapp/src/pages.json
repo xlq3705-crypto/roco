@@ -1,0 +1,96 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "洛克王国图鉴"
+      }
+    },
+    {
+      "path": "pages/pet-list/pet-list",
+      "style": {
+        "navigationBarTitleText": "宠物大全"
+      }
+    },
+    {
+      "path": "pages/pet-detail/pet-detail",
+      "style": {
+        "navigationBarTitleText": "宠物详情"
+      }
+    },
+    {
+      "path": "pages/skill-list/skill-list",
+      "style": {
+        "navigationBarTitleText": "技能大全"
+      }
+    },
+    {
+      "path": "pages/skill-detail/skill-detail",
+      "style": {
+        "navigationBarTitleText": "技能详情"
+      }
+    },
+    {
+      "path": "pages/item-list/item-list",
+      "style": {
+        "navigationBarTitleText": "道具大全"
+      }
+    },
+    {
+      "path": "pages/item-detail/item-detail",
+      "style": {
+        "navigationBarTitleText": "道具详情"
+      }
+    },
+    {
+      "path": "pages/equipment-list/equipment-list",
+      "style": {
+        "navigationBarTitleText": "装备大全"
+      }
+    },
+    {
+      "path": "pages/equipment-detail/equipment-detail",
+      "style": {
+        "navigationBarTitleText": "装备详情"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "洛克王国图鉴",
+    "navigationBarBackgroundColor": "#4a90d9",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#4a90d9",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/images/tab-home.png",
+        "selectedIconPath": "static/images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/pet-list/pet-list",
+        "text": "宠物大全",
+        "iconPath": "static/images/tab-pet.png",
+        "selectedIconPath": "static/images/tab-pet-active.png"
+      },
+      {
+        "pagePath": "pages/skill-list/skill-list",
+        "text": "技能大全",
+        "iconPath": "static/images/tab-skill.png",
+        "selectedIconPath": "static/images/tab-skill-active.png"
+      },
+      {
+        "pagePath": "pages/item-list/item-list",
+        "text": "道具大全",
+        "iconPath": "static/images/tab-item.png",
+        "selectedIconPath": "static/images/tab-item-active.png"
+      }
+    ]
+  }
+}
