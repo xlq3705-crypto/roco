@@ -81,19 +81,24 @@ const pet = ref<any>(null)
 const stats = computed(() => {
   if (!pet.value) return []
   return [
-    { label: '精力', value: pet.value.hp, color: '#e74c3c' },
-    { label: '攻击', value: pet.value.attack, color: '#f39c12' },
-    { label: '防御', value: pet.value.defense, color: '#3498db' },
-    { label: '魔攻', value: pet.value.spAttack, color: '#9b59b6' },
-    { label: '魔防', value: pet.value.spDefense, color: '#27ae60' },
-    { label: '速度', value: pet.value.speed, color: '#1abc9c' }
+    { label: '精力', value: pet.value.hp || 0, color: '#e74c3c' },
+    { label: '攻击', value: pet.value.attack || 0, color: '#f39c12' },
+    { label: '防御', value: pet.value.defense || 0, color: '#3498db' },
+    { label: '魔攻', value: pet.value.spAttack || 0, color: '#9b59b6' },
+    { label: '魔防', value: pet.value.spDefense || 0, color: '#27ae60' },
+    { label: '速度', value: pet.value.speed || 0, color: '#1abc9c' }
   ]
 })
 
 onLoad(async (options: any) => {
   if (options.id) {
-    const res = await get<any>(`/api/pet/${options.id}`)
-    pet.value = res.data
+    try {
+      const res = await get<any>(`/api/pet/${options.id}`)
+      pet.value = res.data
+    } catch (e) {
+      console.error(e)
+      uni.showToast({ title: '加载失败', icon: 'none' })
+    }
   }
 })
 

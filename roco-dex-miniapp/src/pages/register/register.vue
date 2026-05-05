@@ -1,7 +1,7 @@
 <template>
   <view class="page-register">
     <view class="logo-section">
-      <view class="logo">&#x1F43E;</view>
+      <view class="logo">🐾</view>
       <text class="title">注册账号</text>
     </view>
 
@@ -88,7 +88,7 @@ async function onRegister() {
     uni.setStorageSync('userInfo', JSON.stringify(res.data))
     uni.showToast({ title: '注册成功', icon: 'success' })
     setTimeout(() => {
-      uni.navigateBack({ delta: 2 })
+      uni.reLaunch({ url: '/pages/index/index' })
     }, 1000)
   } catch (e: any) {
     uni.showToast({ title: e.message || '注册失败', icon: 'none' })

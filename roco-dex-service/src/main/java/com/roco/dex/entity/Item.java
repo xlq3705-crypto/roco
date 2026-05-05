@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @TableName("roc_item")
@@ -18,5 +18,5 @@ public class Item {
     private String imageUrl;
     private String description;
     private String obtainMethod;
-    private LocalDateTime createTime;
+    private OffsetDateTime createTime;
 }

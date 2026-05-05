@@ -2,7 +2,7 @@ package com.roco.dex.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -22,6 +22,6 @@ public class PetDTO {
     private Integer speed;
     private String description;
     private String obtainMethod;
-    private LocalDateTime createTime;
+    private OffsetDateTime createTime;
     private List<SkillDTO> skills;
 }

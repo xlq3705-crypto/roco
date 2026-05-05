@@ -1,7 +1,7 @@
 <template>
   <view class="page-login">
     <view class="logo-section">
-      <view class="logo">&#x1F43E;</view>
+      <view class="logo">🐾</view>
       <text class="title">洛克王国图鉴</text>
       <text class="subtitle">登录后享受更多功能</text>
     </view>

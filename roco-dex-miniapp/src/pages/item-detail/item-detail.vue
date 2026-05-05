@@ -34,8 +34,13 @@ const item = ref<any>(null)
 
 onLoad(async (options: any) => {
   if (options.id) {
-    const res = await get<any>(`/api/item/${options.id}`)
-    item.value = res.data
+    try {
+      const res = await get<any>(`/api/item/${options.id}`)
+      item.value = res.data
+    } catch (e) {
+      console.error(e)
+      uni.showToast({ title: '加载失败', icon: 'none' })
+    }
   }
 })
 </script>

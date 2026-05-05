@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     # Supabase PostgreSQL (默认)
-    url: jdbc:postgresql://db.qirlzzpmasmhkbezacro.supabase.co:5432/postgres
+    url: jdbc:postgresql://db.qirlzzpmasmhkbezacro.supabase.co:5432/postgres?sslmode=require
     username: postgres
     password: 3CEp7gUHMNLss30b
     driver-class-name: org.postgresql.Driver

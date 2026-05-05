@@ -2,14 +2,14 @@
   <view class="page-index">
     <!-- 用户信息栏 -->
     <view class="user-bar" @tap="onUserTap">
-      <view class="user-avatar">{{ userInfo ? userInfo.nickname[0] : '&#x1F464;' }}</view>
+      <view class="user-avatar">{{ userInfo?.nickname?.[0] || '?' }}</view>
       <text class="user-name">{{ userInfo ? userInfo.nickname : '点击登录' }}</text>
     </view>
 
     <!-- 搜索栏 -->
     <view class="search-section">
       <view class="search-wrap" @tap="goSearch">
-        <text class="search-icon">&#x1F50D;</text>
+        <text class="search-icon">🔍</text>
         <text class="search-placeholder">搜索宠物、技能、道具...</text>
       </view>
     </view>
@@ -18,20 +18,20 @@
     <view class="section">
       <view class="section-title">资料查询</view>
       <view class="category-grid">
-        <view class="category-item" @tap="navigateTo('/pages/pet-list/pet-list')">
-          <view class="category-icon" style="background: #4a90d9;">&#x1F43E;</view>
+        <view class="category-item" @tap="switchTab('/pages/pet-list/pet-list')">
+          <view class="category-icon" style="background: #4a90d9;">🐾</view>
           <text>宠物大全</text>
         </view>
-        <view class="category-item" @tap="navigateTo('/pages/skill-list/skill-list')">
-          <view class="category-icon" style="background: #e74c3c;">&#x26A1;</view>
+        <view class="category-item" @tap="switchTab('/pages/skill-list/skill-list')">
+          <view class="category-icon" style="background: #e74c3c;">⚡</view>
           <text>技能大全</text>
         </view>
-        <view class="category-item" @tap="navigateTo('/pages/item-list/item-list')">
-          <view class="category-icon" style="background: #27ae60;">&#x1F4E6;</view>
+        <view class="category-item" @tap="switchTab('/pages/item-list/item-list')">
+          <view class="category-icon" style="background: #27ae60;">📦</view>
           <text>道具大全</text>
         </view>
         <view class="category-item" @tap="navigateTo('/pages/equipment-list/equipment-list')">
-          <view class="category-icon" style="background: #f39c12;">&#x2694;</view>
+          <view class="category-icon" style="background: #f39c12;">⚔</view>
           <text>装备大全</text>
         </view>
       </view>
@@ -71,12 +71,16 @@ function onUserTap() {
   }
 }
 
+function switchTab(url: string) {
+  uni.switchTab({ url })
+}
+
 function navigateTo(url: string) {
   uni.navigateTo({ url })
 }
 
 function goSearch() {
-  uni.navigateTo({ url: '/pages/pet-list/pet-list?focus=true' })
+  uni.switchTab({ url: '/pages/pet-list/pet-list' })
 }
 </script>
 

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @TableName("roc_skill")
@@ -21,5 +21,5 @@ public class Skill {
     private Integer accuracy;
     private String description;
     private String imageUrl;
-    private LocalDateTime createTime;
+    private OffsetDateTime createTime;
 }

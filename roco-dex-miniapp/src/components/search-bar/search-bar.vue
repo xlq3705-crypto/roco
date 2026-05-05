@@ -1,7 +1,7 @@
 <template>
   <view class="search-bar">
     <view class="search-input-wrap">
-      <text class="search-icon">&#x1F50D;</text>
+      <text class="search-icon">🔍</text>
       <input
         class="search-input"
         type="text"
@@ -11,7 +11,7 @@
         @confirm="onSearch"
         confirm-type="search"
       />
-      <text v-if="modelValue" class="clear-btn" @tap="onClear">&#x2715;</text>
+      <text v-if="modelValue" class="clear-btn" @tap="onClear">✕</text>
     </view>
   </view>
 </template>

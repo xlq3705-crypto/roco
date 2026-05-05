@@ -49,8 +49,13 @@ const skill = ref<any>(null)
 
 onLoad(async (options: any) => {
   if (options.id) {
-    const res = await get<any>(`/api/skill/${options.id}`)
-    skill.value = res.data
+    try {
+      const res = await get<any>(`/api/skill/${options.id}`)
+      skill.value = res.data
+    } catch (e) {
+      console.error(e)
+      uni.showToast({ title: '加载失败', icon: 'none' })
+    }
   }
 })
 </script>
