@@ -3,10 +3,16 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/roco_dex?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    # Supabase PostgreSQL (默认)
+    url: jdbc:postgresql://db.qirlzzpmasmhkbezacro.supabase.co:5432/postgres
+    username: postgres
+    password: ${SUPABASE_DB_PASSWORD:your_password_here}
+    driver-class-name: org.postgresql.Driver
+    # 本地 MySQL (备选，取消注释切换)
+    # url: jdbc:mysql://localhost:3306/roco_dex?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    # username: root
+    # password: root
+    # driver-class-name: com.mysql.cj.jdbc.Driver
   cache:
     type: caffeine
     caffeine:
@@ -19,6 +25,10 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+
+jwt:
+  secret: roco-dex-secret-key-must-be-at-least-256-bits-long-for-hs256
+  expiration: 86400000
 
 springdoc:
   swagger-ui:

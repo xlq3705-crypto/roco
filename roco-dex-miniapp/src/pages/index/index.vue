@@ -1,5 +1,11 @@
 <template>
   <view class="page-index">
+    <!-- 用户信息栏 -->
+    <view class="user-bar" @tap="onUserTap">
+      <view class="user-avatar">{{ userInfo ? userInfo.nickname[0] : '&#x1F464;' }}</view>
+      <text class="user-name">{{ userInfo ? userInfo.nickname : '点击登录' }}</text>
+    </view>
+
     <!-- 搜索栏 -->
     <view class="search-section">
       <view class="search-wrap" @tap="goSearch">
@@ -45,12 +51,31 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
+
+const userInfo = ref<any>(null)
+
+onShow(() => {
+  const stored = uni.getStorageSync('userInfo')
+  if (stored) {
+    userInfo.value = JSON.parse(stored)
+  } else {
+    userInfo.value = null
+  }
+})
+
+function onUserTap() {
+  if (!userInfo.value) {
+    uni.navigateTo({ url: '/pages/login/login' })
+  }
+}
+
 function navigateTo(url: string) {
   uni.navigateTo({ url })
 }
 
 function goSearch() {
-  // 跳转到宠物列表页并聚焦搜索
   uni.navigateTo({ url: '/pages/pet-list/pet-list?focus=true' })
 }
 </script>
@@ -59,6 +84,31 @@ function goSearch() {
 .page-index {
   min-height: 100vh;
   background: #f5f5f5;
+}
+
+.user-bar {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background: #fff;
+}
+
+.user-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: #4a90d9;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  margin-right: 16rpx;
+}
+
+.user-name {
+  font-size: 28rpx;
+  color: #333;
 }
 
 .search-section {
