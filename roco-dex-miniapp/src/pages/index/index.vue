@@ -13,23 +13,23 @@
       <view class="section-title">资料查询</view>
       <view class="category-grid">
         <view class="category-item" @tap="switchTab('/pages/pet-list/pet-list')">
-          <view class="category-icon" style="background: #4a90d9;">🐾</view>
+          <image class="category-icon-img" src="/static/images/icon-pet-dex.png" mode="aspectFit" />
           <text>宠物大全</text>
         </view>
         <view class="category-item" @tap="switchTab('/pages/skill-list/skill-list')">
-          <view class="category-icon" style="background: #e74c3c;">⚡</view>
+          <image class="category-icon-img" src="/static/images/icon-skill-dex.png" mode="aspectFit" />
           <text>技能大全</text>
         </view>
         <view class="category-item" @tap="switchTab('/pages/item-list/item-list')">
-          <view class="category-icon" style="background: #27ae60;">📦</view>
+          <image class="category-icon-img" src="/static/images/icon-item-dex.png" mode="aspectFit" />
           <text>道具大全</text>
         </view>
         <view class="category-item" @tap="navigateTo('/pages/equipment-list/equipment-list')">
-          <view class="category-icon" style="background: #f39c12;">⚔</view>
+          <image class="category-icon-img" src="/static/images/icon-restraint.png" mode="aspectFit" />
           <text>装备大全</text>
         </view>
         <view class="category-item" @tap="navigateTo('/pages/attribute-restraint/attribute-restraint')">
-          <view class="category-icon" style="background: #9b59b6;">⚖</view>
+          <image class="category-icon-img" src="/static/images/icon-restraint.png" mode="aspectFit" />
           <text>克制关系</text>
         </view>
       </view>
@@ -130,6 +130,12 @@ function goSearch() {
   align-items: center;
   justify-content: center;
   font-size: 48rpx;
+}
+
+.category-icon-img {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 24rpx;
 }
 
 .card {
