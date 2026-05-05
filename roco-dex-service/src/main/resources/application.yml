@@ -8,6 +8,12 @@ spring:
     username: postgres
     password: 3CEp7gUHMNLss30b
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
     # 本地 MySQL (备选，取消注释切换)
     # url: jdbc:mysql://localhost:3306/roco_dex?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     # username: root

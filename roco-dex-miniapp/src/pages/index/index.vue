@@ -28,6 +28,10 @@
           <view class="category-icon" style="background: #f39c12;">⚔</view>
           <text>装备大全</text>
         </view>
+        <view class="category-item" @tap="navigateTo('/pages/attribute-restraint/attribute-restraint')">
+          <view class="category-icon" style="background: #9b59b6;">⚖</view>
+          <text>克制关系</text>
+        </view>
       </view>
     </view>
 

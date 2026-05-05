@@ -77,6 +77,12 @@
       "style": {
         "navigationBarTitleText": "找回密码"
       }
+    },
+    {
+      "path": "pages/attribute-restraint/attribute-restraint",
+      "style": {
+        "navigationBarTitleText": "属性克制表"
+      }
     }
   ],
   "globalStyle": {
