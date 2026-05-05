@@ -4,6 +4,7 @@
     <view class="user-bar" @tap="onUserTap">
       <view class="user-avatar">{{ userInfo?.nickname?.[0] || '?' }}</view>
       <text class="user-name">{{ userInfo ? userInfo.nickname : '点击登录' }}</text>
+      <text v-if="userInfo" class="logout-btn" @tap.stop="onLogout">退出</text>
     </view>
 
     <!-- 搜索栏 -->
@@ -71,6 +72,21 @@ function onUserTap() {
   }
 }
 
+function onLogout() {
+  uni.showModal({
+    title: '提示',
+    content: '确定退出登录吗？',
+    success: (res) => {
+      if (res.confirm) {
+        uni.removeStorageSync('token')
+        uni.removeStorageSync('userInfo')
+        userInfo.value = null
+        uni.showToast({ title: '已退出', icon: 'success' })
+      }
+    }
+  })
+}
+
 function switchTab(url: string) {
   uni.switchTab({ url })
 }
@@ -113,6 +129,15 @@ function goSearch() {
 .user-name {
   font-size: 28rpx;
   color: #333;
+  flex: 1;
+}
+
+.logout-btn {
+  font-size: 24rpx;
+  color: #999;
+  padding: 8rpx 20rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 24rpx;
 }
 
 .search-section {
