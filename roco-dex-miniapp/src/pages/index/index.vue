@@ -1,12 +1,5 @@
 <template>
   <view class="page-index">
-    <!-- 用户信息栏 -->
-    <view class="user-bar" @tap="onUserTap">
-      <view class="user-avatar">{{ userInfo?.nickname?.[0] || '?' }}</view>
-      <text class="user-name">{{ userInfo ? userInfo.nickname : '点击登录' }}</text>
-      <text v-if="userInfo" class="logout-btn" @tap.stop="onLogout">退出</text>
-    </view>
-
     <!-- 搜索栏 -->
     <view class="search-section">
       <view class="search-wrap" @tap="goSearch">
@@ -52,41 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { onShow } from '@dcloudio/uni-app'
-
-const userInfo = ref<any>(null)
-
-onShow(() => {
-  const stored = uni.getStorageSync('userInfo')
-  if (stored) {
-    userInfo.value = JSON.parse(stored)
-  } else {
-    userInfo.value = null
-  }
-})
-
-function onUserTap() {
-  if (!userInfo.value) {
-    uni.navigateTo({ url: '/pages/login/login' })
-  }
-}
-
-function onLogout() {
-  uni.showModal({
-    title: '提示',
-    content: '确定退出登录吗？',
-    success: (res) => {
-      if (res.confirm) {
-        uni.removeStorageSync('token')
-        uni.removeStorageSync('userInfo')
-        userInfo.value = null
-        uni.showToast({ title: '已退出', icon: 'success' })
-      }
-    }
-  })
-}
-
 function switchTab(url: string) {
   uni.switchTab({ url })
 }
@@ -104,40 +62,6 @@ function goSearch() {
 .page-index {
   min-height: 100vh;
   background: #f5f5f5;
-}
-
-.user-bar {
-  display: flex;
-  align-items: center;
-  padding: 20rpx 30rpx;
-  background: #fff;
-}
-
-.user-avatar {
-  width: 64rpx;
-  height: 64rpx;
-  border-radius: 50%;
-  background: #4a90d9;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28rpx;
-  margin-right: 16rpx;
-}
-
-.user-name {
-  font-size: 28rpx;
-  color: #333;
-  flex: 1;
-}
-
-.logout-btn {
-  font-size: 24rpx;
-  color: #999;
-  padding: 8rpx 20rpx;
-  border: 1rpx solid #ddd;
-  border-radius: 24rpx;
 }
 
 .search-section {

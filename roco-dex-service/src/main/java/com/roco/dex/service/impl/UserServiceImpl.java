@@ -2,6 +2,7 @@ package com.roco.dex.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.roco.dex.common.JwtUtil;
+import com.roco.dex.dto.ForgotPasswordDTO;
 import com.roco.dex.dto.LoginDTO;
 import com.roco.dex.dto.RegisterDTO;
 import com.roco.dex.dto.UserVO;
@@ -65,6 +66,20 @@ public class UserServiceImpl implements UserService {
         vo.setNickname(user.getNickname());
         vo.setAvatarUrl(user.getAvatarUrl());
         return vo;
+    }
+
+    @Override
+    public void resetPassword(ForgotPasswordDTO dto) {
+        User user = userMapper.selectOne(
+                new LambdaQueryWrapper<User>().eq(User::getUsername, dto.getUsername()));
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        if (!user.getNickname().trim().equals(dto.getNickname().trim())) {
+            throw new RuntimeException("昵称验证失败");
+        }
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        userMapper.updateById(user);
     }
 
     private UserVO buildUserVO(User user) {

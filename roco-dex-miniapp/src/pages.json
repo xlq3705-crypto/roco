@@ -65,6 +65,18 @@
       "style": {
         "navigationBarTitleText": "注册"
       }
+    },
+    {
+      "path": "pages/mine/mine",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/forgot-password/forgot-password",
+      "style": {
+        "navigationBarTitleText": "找回密码"
+      }
     }
   ],
   "globalStyle": {
@@ -102,6 +114,12 @@
         "text": "道具大全",
         "iconPath": "static/images/tab-item.png",
         "selectedIconPath": "static/images/tab-item-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "static/images/tab-mine.png",
+        "selectedIconPath": "static/images/tab-mine-active.png"
       }
     ]
   }

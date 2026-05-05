@@ -1,9 +1,9 @@
 <template>
-  <view class="page-login">
+  <view class="page-forgot">
     <view class="logo-section">
       <view class="logo">🐾</view>
-      <text class="title">洛克王国图鉴</text>
-      <text class="subtitle">登录后享受更多功能</text>
+      <text class="title">找回密码</text>
+      <text class="subtitle">通过用户名和昵称验证身份</text>
     </view>
 
     <view class="form-section">
@@ -18,22 +18,30 @@
         />
       </view>
       <view class="input-group">
-        <text class="label">密码</text>
+        <text class="label">昵称</text>
+        <input
+          class="input"
+          type="text"
+          v-model="form.nickname"
+          placeholder="请输入注册时的昵称"
+          maxlength="20"
+        />
+      </view>
+      <view class="input-group">
+        <text class="label">新密码</text>
         <input
           class="input"
           type="password"
-          v-model="form.password"
-          placeholder="请输入密码"
+          v-model="form.newPassword"
+          placeholder="请输入新密码"
           maxlength="20"
         />
       </view>
 
-      <button class="btn-primary" :loading="loading" @tap="onLogin">登 录</button>
+      <button class="btn-primary" :loading="loading" @tap="onReset">重置密码</button>
 
       <view class="footer">
-        <text class="link" @tap="goRegister">还没有账号？立即注册</text>
-        <text class="divider">|</text>
-        <text class="link" @tap="goForgotPassword">忘记密码?</text>
+        <text class="link" @tap="goBack">返回登录</text>
       </view>
     </view>
   </view>
@@ -46,63 +54,62 @@ import { post } from '@/utils/request'
 const loading = ref(false)
 const form = reactive({
   username: '',
-  password: ''
+  nickname: '',
+  newPassword: ''
 })
 
-async function onLogin() {
-  if (!form.username.trim() || !form.password.trim()) {
-    uni.showToast({ title: '请输入用户名和密码', icon: 'none' })
+async function onReset() {
+  if (!form.username.trim() || !form.nickname.trim() || !form.newPassword.trim()) {
+    uni.showToast({ title: '请填写完整信息', icon: 'none' })
+    return
+  }
+  if (form.newPassword.length < 6) {
+    uni.showToast({ title: '密码至少6位', icon: 'none' })
     return
   }
   loading.value = true
   try {
-    const res = await post<any>('/api/auth/login', form)
-    uni.setStorageSync('token', res.data.token)
-    uni.setStorageSync('userInfo', JSON.stringify(res.data))
-    uni.showToast({ title: '登录成功', icon: 'success' })
+    await post('/api/auth/reset-password', form)
+    uni.showToast({ title: '密码重置成功', icon: 'success' })
     setTimeout(() => {
       uni.navigateBack()
     }, 1000)
   } catch (e: any) {
-    uni.showToast({ title: e.message || '登录失败', icon: 'none' })
+    uni.showToast({ title: e.message || '重置失败', icon: 'none' })
   } finally {
     loading.value = false
   }
 }
 
-function goRegister() {
-  uni.navigateTo({ url: '/pages/register/register' })
-}
-
-function goForgotPassword() {
-  uni.navigateTo({ url: '/pages/forgot-password/forgot-password' })
+function goBack() {
+  uni.navigateBack()
 }
 </script>
 
 <style lang="scss" scoped>
-.page-login {
+.page-forgot {
   min-height: 100vh;
   background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 160rpx;
+  padding-top: 120rpx;
 }
 
 .logo-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 80rpx;
+  margin-bottom: 60rpx;
 }
 
 .logo {
-  font-size: 100rpx;
-  margin-bottom: 20rpx;
+  font-size: 80rpx;
+  margin-bottom: 16rpx;
 }
 
 .title {
-  font-size: 44rpx;
+  font-size: 40rpx;
   font-weight: bold;
   color: #fff;
 }
@@ -121,7 +128,7 @@ function goForgotPassword() {
 }
 
 .input-group {
-  margin-bottom: 30rpx;
+  margin-bottom: 24rpx;
 }
 
 .label {
@@ -156,20 +163,12 @@ function goForgotPassword() {
 }
 
 .footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16rpx;
+  text-align: center;
   margin-top: 30rpx;
 }
 
 .link {
   font-size: 26rpx;
   color: #4a90d9;
-}
-
-.divider {
-  font-size: 26rpx;
-  color: #ddd;
 }
 </style>

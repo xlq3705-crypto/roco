@@ -2,6 +2,7 @@ package com.roco.dex.controller;
 
 import com.roco.dex.common.JwtUtil;
 import com.roco.dex.common.Result;
+import com.roco.dex.dto.ForgotPasswordDTO;
 import com.roco.dex.dto.LoginDTO;
 import com.roco.dex.dto.RegisterDTO;
 import com.roco.dex.dto.UserVO;
@@ -54,6 +55,17 @@ public class AuthController {
         Long userId = jwtUtil.getUserId(token);
         try {
             return Result.success(userService.getUserInfo(userId));
+        } catch (RuntimeException e) {
+            return Result.error(400, e.getMessage());
+        }
+    }
+
+    @Operation(summary = "找回密码")
+    @PostMapping("/reset-password")
+    public Result<Void> resetPassword(@RequestBody ForgotPasswordDTO dto) {
+        try {
+            userService.resetPassword(dto);
+            return Result.success();
         } catch (RuntimeException e) {
             return Result.error(400, e.getMessage());
         }
