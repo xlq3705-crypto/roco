@@ -25,8 +25,19 @@
       <text>行=攻击方属性，列=防御方属性</text>
     </view>
 
+    <!-- 加载中 -->
+    <view v-if="loading" class="loading-wrap">
+      <text>加载中...</text>
+    </view>
+
+    <!-- 加载失败 -->
+    <view v-else-if="loadError" class="loading-wrap">
+      <text>数据加载失败，请检查后端服务是否启动</text>
+      <view class="retry-btn" @tap="fetchAttributeTable">重试</view>
+    </view>
+
     <!-- 克制表 -->
-    <scroll-view scroll-x scroll-y class="table-wrap">
+    <scroll-view v-else scroll-x scroll-y class="table-wrap">
       <view class="table">
         <!-- 表头 -->
         <view class="table-row header-row">
@@ -64,33 +75,54 @@
 </template>
 
 <script setup lang="ts">
-const attributes = [
-  '普通', '火', '水', '草', '电', '冰', '翼', '土',
-  '萌', '虫', '幽灵', '龙', '恶魔', '机械', '光'
-]
+import { ref, computed } from 'vue'
+import { get } from '@/utils/request'
+import { onLoad } from '@dcloudio/uni-app'
 
-// 克制关系数据: multiplierMap[攻击][防御] = 倍率
-const multiplierMap: Record<string, Record<string, number>> = {
-  '火': { '草': 2, '冰': 2, '虫': 2, '机械': 2, '水': 0.5, '火': 0.5, '土': 0.5, '龙': 0.5 },
-  '水': { '火': 2, '土': 2, '水': 0.5, '草': 0.5, '龙': 0.5 },
-  '草': { '水': 2, '土': 2, '火': 0.5, '草': 0.5, '翼': 0.5, '虫': 0.5, '龙': 0.5, '机械': 0.5 },
-  '电': { '水': 2, '翼': 2, '草': 0.5, '电': 0.5, '土': 0, '龙': 0.5 },
-  '冰': { '草': 2, '土': 2, '翼': 2, '龙': 2, '火': 0.5, '水': 0.5, '冰': 0.5, '机械': 0.5 },
-  '土': { '火': 2, '电': 2, '机械': 2, '水': 0.5, '草': 0.5, '翼': 0 },
-  '翼': { '草': 2, '虫': 2, '电': 0.5, '冰': 0.5, '土': 0 },
-  '萌': { '萌': 0.5, '机械': 0.5, '幽灵': 0 },
-  '虫': { '草': 2, '萌': 2, '恶魔': 2, '火': 0.5, '翼': 0.5, '机械': 0.5 },
-  '幽灵': { '萌': 2, '幽灵': 2, '普通': 0, '恶魔': 0.5 },
-  '龙': { '龙': 2, '机械': 0.5 },
-  '恶魔': { '萌': 2, '幽灵': 2, '恶魔': 0.5, '机械': 0.5 },
-  '机械': { '冰': 2, '萌': 0.5, '火': 0.5, '水': 0.5, '电': 0.5, '机械': 0.5 },
-  '光': { '幽灵': 2, '恶魔': 2, '光': 0.5 },
-  '普通': { '幽灵': 0 }
+interface AttributeRow {
+  attackAttr: string
+  defenseAttr: string
+  multiplier: number
+}
+
+const attributes = ref<string[]>([])
+const multiplierMap = ref<Record<string, Record<string, number>>>({})
+const loading = ref(true)
+const loadError = ref(false)
+
+onLoad(() => {
+  fetchAttributeTable()
+})
+
+async function fetchAttributeTable() {
+  loading.value = true
+  loadError.value = false
+  try {
+    const res = await get<AttributeRow[]>('/api/attribute/table')
+    const rows = res.data
+    const attrSet = new Set<string>()
+    const map: Record<string, Record<string, number>> = {}
+
+    for (const row of rows) {
+      attrSet.add(row.attackAttr)
+      attrSet.add(row.defenseAttr)
+      if (!map[row.attackAttr]) map[row.attackAttr] = {}
+      map[row.attackAttr][row.defenseAttr] = Number(row.multiplier)
+    }
+
+    attributes.value = Array.from(attrSet)
+    multiplierMap.value = map
+  } catch (e) {
+    loadError.value = true
+    uni.showToast({ title: '加载克制数据失败', icon: 'none' })
+  } finally {
+    loading.value = false
+  }
 }
 
 function getMultiplier(atk: string, def: string): string {
   if (atk === def) return '1'
-  const val = multiplierMap[atk]?.[def]
+  const val = multiplierMap.value[atk]?.[def]
   if (val === undefined) return '1'
   if (val === 2) return '2'
   if (val === 0.5) return '½'
@@ -223,5 +255,24 @@ function getCellClass(atk: string, def: string): string {
 
 .header-row .table-cell {
   border-bottom: 2rpx solid #ddd;
+}
+
+.loading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.retry-btn {
+  margin-top: 24rpx;
+  padding: 12rpx 40rpx;
+  background: #4a90d9;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 26rpx;
 }
 </style>
