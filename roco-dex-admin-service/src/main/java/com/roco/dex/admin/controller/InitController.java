@@ -43,7 +43,7 @@ public class InitController {
                 admin_username VARCHAR(50),
                 module VARCHAR(50),
                 action VARCHAR(50),
-                target_id BIGINT,
+                target_id VARCHAR(50),
                 detail TEXT,
                 ip VARCHAR(50),
                 create_time TIMESTAMPTZ DEFAULT NOW()

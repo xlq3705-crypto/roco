@@ -1,5 +1,6 @@
 package com.roco.dex.admin.entity;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -18,5 +19,6 @@ public class Item {
     private String imageUrl;
     private String description;
     private String obtainMethod;
+    @ExcelIgnore
     private OffsetDateTime createTime;
 }
