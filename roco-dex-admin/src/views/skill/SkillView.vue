@@ -16,7 +16,7 @@
             </template>
           </el-input>
           <el-select
-            v-model="searchParams.attribute"
+            v-model="searchParams.attr"
             placeholder="属性筛选"
             clearable
             style="width: 130px; margin-left: 10px"
@@ -49,9 +49,9 @@
       <el-table :data="tableData" v-loading="loading" border stripe>
         <el-table-column prop="id" label="ID" width="70" />
         <el-table-column prop="name" label="名称" width="120" />
-        <el-table-column prop="attribute" label="属性" width="90">
+        <el-table-column prop="attr" label="属性" width="90">
           <template #default="{ row }">
-            <el-tag>{{ row.attribute }}</el-tag>
+            <el-tag>{{ row.attr }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="type" label="类型" width="90">
@@ -75,8 +75,8 @@
 
       <div class="pagination">
         <el-pagination
-          v-model:current-page="searchParams.pageNum"
-          v-model:page-size="searchParams.pageSize"
+          v-model:current-page="searchParams.page"
+          v-model:page-size="searchParams.size"
           :page-sizes="[10, 20, 50, 100]"
           :total="total"
           layout="total, sizes, prev, pager, next, jumper"
@@ -98,8 +98,8 @@
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="属性" prop="attribute">
-              <el-select v-model="form.attribute" placeholder="请选择属性" style="width: 100%">
+            <el-form-item label="属性" prop="attr">
+              <el-select v-model="form.attr" placeholder="请选择属性" style="width: 100%">
                 <el-option v-for="attr in attributeOptions" :key="attr" :label="attr" :value="attr" />
               </el-select>
             </el-form-item>
@@ -164,16 +164,16 @@ const attributeOptions = [
 
 const searchParams = reactive({
   keyword: '',
-  attribute: '',
+  attr: '',
   type: '',
-  pageNum: 1,
-  pageSize: 10
+  page: 1,
+  size: 10
 })
 
 const defaultForm = {
   id: null as number | null,
   name: '',
-  attribute: '',
+  attr: '',
   type: '',
   power: 0,
   pp: 0,
@@ -185,7 +185,7 @@ const form = reactive({ ...defaultForm })
 
 const rules: FormRules = {
   name: [{ required: true, message: '请输入技能名称', trigger: 'blur' }],
-  attribute: [{ required: true, message: '请选择属性', trigger: 'change' }],
+  attr: [{ required: true, message: '请选择属性', trigger: 'change' }],
   type: [{ required: true, message: '请选择类型', trigger: 'change' }]
 }
 
@@ -208,7 +208,7 @@ function openDialog(row?: any) {
     Object.assign(form, {
       id: row.id,
       name: row.name,
-      attribute: row.attribute,
+      attr: row.attr,
       type: row.type,
       power: row.power || 0,
       pp: row.pp || 0,

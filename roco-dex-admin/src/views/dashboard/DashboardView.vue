@@ -129,7 +129,7 @@ async function loadPieChart() {
           radius: '55%',
           center: ['50%', '60%'],
           data: data.map((item: any) => ({
-            name: item.attribute,
+            name: item.attr,
             value: item.count
           })),
           emphasis: {

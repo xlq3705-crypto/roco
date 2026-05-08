@@ -16,7 +16,7 @@
             </template>
           </el-input>
           <el-select
-            v-model="searchParams.attribute"
+            v-model="searchParams.mainAttr"
             placeholder="主属性筛选"
             clearable
             style="width: 150px; margin-left: 10px"
@@ -43,23 +43,23 @@
       <el-table :data="tableData" v-loading="loading" border stripe>
         <el-table-column prop="id" label="ID" width="70" />
         <el-table-column prop="name" label="名称" width="120" />
-        <el-table-column prop="serialNo" label="编号" width="100" />
-        <el-table-column prop="mainAttribute" label="主属性" width="90">
+        <el-table-column prop="petNo" label="编号" width="100" />
+        <el-table-column prop="mainAttr" label="主属性" width="90">
           <template #default="{ row }">
-            <el-tag>{{ row.mainAttribute }}</el-tag>
+            <el-tag>{{ row.mainAttr }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="subAttribute" label="副属性" width="90">
+        <el-table-column prop="subAttr" label="副属性" width="90">
           <template #default="{ row }">
-            <el-tag v-if="row.subAttribute" type="info">{{ row.subAttribute }}</el-tag>
+            <el-tag v-if="row.subAttr" type="info">{{ row.subAttr }}</el-tag>
             <span v-else>-</span>
           </template>
         </el-table-column>
         <el-table-column prop="hp" label="HP" width="70" />
         <el-table-column prop="attack" label="攻击" width="70" />
         <el-table-column prop="defense" label="防御" width="70" />
-        <el-table-column prop="magicAttack" label="魔攻" width="70" />
-        <el-table-column prop="magicDefense" label="魔防" width="70" />
+        <el-table-column prop="spAttack" label="魔攻" width="70" />
+        <el-table-column prop="spDefense" label="魔防" width="70" />
         <el-table-column prop="speed" label="速度" width="70" />
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="{ row }">
@@ -71,8 +71,8 @@
 
       <div class="pagination">
         <el-pagination
-          v-model:current-page="searchParams.pageNum"
-          v-model:page-size="searchParams.pageSize"
+          v-model:current-page="searchParams.page"
+          v-model:page-size="searchParams.size"
           :page-sizes="[10, 20, 50, 100]"
           :total="total"
           layout="total, sizes, prev, pager, next, jumper"
@@ -96,22 +96,22 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="编号" prop="serialNo">
-              <el-input v-model="form.serialNo" placeholder="请输入编号" />
+            <el-form-item label="编号" prop="petNo">
+              <el-input v-model="form.petNo" placeholder="请输入编号" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="主属性" prop="mainAttribute">
-              <el-select v-model="form.mainAttribute" placeholder="请选择主属性" style="width: 100%">
+            <el-form-item label="主属性" prop="mainAttr">
+              <el-select v-model="form.mainAttr" placeholder="请选择主属性" style="width: 100%">
                 <el-option v-for="attr in attributeOptions" :key="attr" :label="attr" :value="attr" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="副属性" prop="subAttribute">
-              <el-select v-model="form.subAttribute" placeholder="请选择副属性" clearable style="width: 100%">
+            <el-form-item label="副属性" prop="subAttr">
+              <el-select v-model="form.subAttr" placeholder="请选择副属性" clearable style="width: 100%">
                 <el-option v-for="attr in attributeOptions" :key="attr" :label="attr" :value="attr" />
               </el-select>
             </el-form-item>
@@ -136,13 +136,13 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="魔攻" prop="magicAttack">
-              <el-input-number v-model="form.magicAttack" :min="0" style="width: 100%" />
+            <el-form-item label="魔攻" prop="spAttack">
+              <el-input-number v-model="form.spAttack" :min="0" style="width: 100%" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="魔防" prop="magicDefense">
-              <el-input-number v-model="form.magicDefense" :min="0" style="width: 100%" />
+            <el-form-item label="魔防" prop="spDefense">
+              <el-input-number v-model="form.spDefense" :min="0" style="width: 100%" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -198,22 +198,22 @@ const attributeOptions = [
 
 const searchParams = reactive({
   keyword: '',
-  attribute: '',
-  pageNum: 1,
-  pageSize: 10
+  mainAttr: '',
+  page: 1,
+  size: 10
 })
 
 const defaultForm = {
   id: null as number | null,
   name: '',
-  serialNo: '',
-  mainAttribute: '',
-  subAttribute: '',
+  petNo: '',
+  mainAttr: '',
+  subAttr: '',
   hp: 0,
   attack: 0,
   defense: 0,
-  magicAttack: 0,
-  magicDefense: 0,
+  spAttack: 0,
+  spDefense: 0,
   speed: 0,
   skillIds: [] as number[]
 }
@@ -222,8 +222,8 @@ const form = reactive({ ...defaultForm })
 
 const rules: FormRules = {
   name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
-  serialNo: [{ required: true, message: '请输入编号', trigger: 'blur' }],
-  mainAttribute: [{ required: true, message: '请选择主属性', trigger: 'change' }]
+  petNo: [{ required: true, message: '请输入编号', trigger: 'blur' }],
+  mainAttr: [{ required: true, message: '请选择主属性', trigger: 'change' }]
 }
 
 async function loadData() {
@@ -241,7 +241,7 @@ async function loadData() {
 
 async function loadSkillOptions() {
   try {
-    const res: any = await request.get('/skill/list', { params: { pageNum: 1, pageSize: 999 } })
+    const res: any = await request.get('/skill/list', { params: { page: 1, size: 999 } })
     skillOptions.value = res.data.records || []
   } catch (error) {
     // ignore
@@ -254,14 +254,14 @@ function openDialog(row?: any) {
     Object.assign(form, {
       id: row.id,
       name: row.name,
-      serialNo: row.serialNo,
-      mainAttribute: row.mainAttribute,
-      subAttribute: row.subAttribute || '',
+      petNo: row.petNo,
+      mainAttr: row.mainAttr,
+      subAttr: row.subAttr || '',
       hp: row.hp || 0,
       attack: row.attack || 0,
       defense: row.defense || 0,
-      magicAttack: row.magicAttack || 0,
-      magicDefense: row.magicDefense || 0,
+      spAttack: row.spAttack || 0,
+      spDefense: row.spDefense || 0,
       speed: row.speed || 0,
       skillIds: row.skillIds || []
     })

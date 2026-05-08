@@ -56,8 +56,8 @@
 
       <div class="pagination">
         <el-pagination
-          v-model:current-page="searchParams.pageNum"
-          v-model:page-size="searchParams.pageSize"
+          v-model:current-page="searchParams.page"
+          v-model:page-size="searchParams.size"
           :page-sizes="[10, 20, 50, 100]"
           :total="total"
           layout="total, sizes, prev, pager, next, jumper"
@@ -119,8 +119,8 @@ const categoryOptions = ['武器', '防具', '饰品', '其他']
 const searchParams = reactive({
   keyword: '',
   category: '',
-  pageNum: 1,
-  pageSize: 10
+  page: 1,
+  size: 10
 })
 
 const defaultForm = {

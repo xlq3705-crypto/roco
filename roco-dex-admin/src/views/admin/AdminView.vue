@@ -57,8 +57,8 @@
 
       <div class="pagination">
         <el-pagination
-          v-model:current-page="searchParams.pageNum"
-          v-model:page-size="searchParams.pageSize"
+          v-model:current-page="searchParams.page"
+          v-model:page-size="searchParams.size"
           :page-sizes="[10, 20, 50, 100]"
           :total="total"
           layout="total, sizes, prev, pager, next, jumper"
@@ -121,8 +121,8 @@ const total = ref(0)
 
 const searchParams = reactive({
   keyword: '',
-  pageNum: 1,
-  pageSize: 10
+  page: 1,
+  size: 10
 })
 
 const defaultForm = {
