@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import router from '@/router'
 
 const request = axios.create({
   baseURL: '/api/admin',
@@ -28,7 +27,7 @@ request.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('admin_token')
       localStorage.removeItem('admin_info')
-      router.push('/login')
+      window.location.href = '/login'
     }
     ElMessage.error(error.response?.data?.message || '网络错误')
     return Promise.reject(error)
