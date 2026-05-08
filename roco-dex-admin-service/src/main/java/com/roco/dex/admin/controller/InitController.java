@@ -62,6 +62,13 @@ public class InitController {
             )
         """);
 
+        // Add status column to roc_user if not exists
+        try {
+            jdbcTemplate.execute("ALTER TABLE roc_user ADD COLUMN IF NOT EXISTS status SMALLINT NOT NULL DEFAULT 1");
+        } catch (Exception e) {
+            // Column may already exist, ignore
+        }
+
         // Insert default super admin if not exists
         Admin existing = adminMapper.selectOne(
                 new LambdaQueryWrapper<Admin>().eq(Admin::getUsername, "admin"));

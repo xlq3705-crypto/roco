@@ -55,6 +55,10 @@ public class AdminUserController {
 
         existing.setPassword(null);
         existing.setAvatarUrl(null);
+        // Update status if provided
+        if (user.getStatus() != null) {
+            existing.setStatus(user.getStatus());
+        }
         // Only update nickname if provided
         if (user.getNickname() != null) {
             existing.setNickname(user.getNickname());

@@ -17,5 +17,6 @@ public class User {
     private String password;
     private String nickname;
     private String avatarUrl;
+    private Integer status;
     private OffsetDateTime createTime;
 }
