@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://db.qirlzzpmasmhkbezacro.supabase.co:5432/postgres?sslmode=require
+    username: postgres
+    password: 3CEp7gUHMNLss30b
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 0
+      idle-timeout: 30000
+      max-lifetime: 120000
+      connection-timeout: 30000
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=30m
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
+
+jwt:
+  secret: roco-dex-admin-secret-key-must-be-at-least-256-bits-long-for-hs256
+  expiration: 86400000
+
+springdoc:
+  swagger-ui:
+    path: /doc.html
+  api-docs:
+    path: /v3/api-docs
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
